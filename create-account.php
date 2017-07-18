@@ -9,10 +9,14 @@
 		$email = $_POST["email"];
 
 		if(!DB::query("SELECT username FROM users WHERE username=:username",array(':username'=>$username))){
+			
+			if(strlen($username)>=3 && strlen($username)<=32){
+				DB::query("INSERT INTO users(username,password,email) VALUES(:username,:password,:email)",array(':username'=>$username,':password'=>$password,':email'=>$email));
 
-			DB::query("INSERT INTO users(username,password,email) VALUES(:username,:password,:email)",array(':username'=>$username,':password'=>$password,':email'=>$email));
-
-			echo "successfully stored in the database !!";
+				echo "successfully stored in the database !!";
+			}else{
+				echo "Invalid username";	
+			}
 
 		}else{
 
