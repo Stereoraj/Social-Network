@@ -11,9 +11,31 @@
 		if(!DB::query("SELECT username FROM users WHERE username=:username",array(':username'=>$username))){
 			
 			if(strlen($username)>=3 && strlen($username)<=32){
-				DB::query("INSERT INTO users(username,password,email) VALUES(:username,:password,:email)",array(':username'=>$username,':password'=>$password,':email'=>$email));
 
-				echo "successfully stored in the database !!";
+				// TO-DO : not able to validate the username with the pattern ...
+				// have to check it again
+				if(preg_match("/[a-z]+/",$username)){
+
+					if(strlen($password)>=6 && strlen($password)<=60){
+
+						if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+
+							DB::query("INSERT INTO users(username,password,email) VALUES(:username,:password,:email)",array(':username'=>$username,':password'=>password_hash($password, PASSWORD_BCRYPT),':email'=>$email));
+
+							echo "successfully stored in the database !!";
+
+						}else{
+
+							echo "Invalid Email ID";
+						}
+					}else{
+
+						echo "Invalid password";
+					}
+				}else{
+
+					echo "Invalid pregmatic form";
+				}
 			}else{
 				echo "Invalid username";	
 			}
