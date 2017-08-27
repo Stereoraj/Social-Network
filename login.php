@@ -17,8 +17,15 @@
             */
 
             var_dump(password_verify($password,DB::query('SELECT password FROM users WHERE username=:username',array(':username'=>$username))[0]['password']));
+
+
             if(password_verify($password,DB::query('SELECT password FROM users WHERE username=:username',array(':username'=>$username))[0]['password'])){
                     echo 'valid password';
+
+                    // create the login token
+                    $crypt_strong = True;
+                    $token = bin2hex(openssl_random_pseudo_bytes(64, $crypt_strong));
+                    var_dump($token);
             }else{
                     echo 'invalid password';
             }
