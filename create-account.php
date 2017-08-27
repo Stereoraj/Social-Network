@@ -1,5 +1,5 @@
 <?php
-	
+
 	include('classes/DB.php');
 
 	if(isset($_POST["submit"])){
@@ -9,11 +9,11 @@
 		$email = $_POST["email"];
 
 		if(!DB::query("SELECT username FROM users WHERE username=:username",array(':username'=>$username))){
-			
+
 			if(strlen($username)>=3 && strlen($username)<=32){
 
 				// TO-DO : not able to validate the username with the pattern ...
-				// have to check it again
+				// have to check it again^
 				if(preg_match("/[a-z]+/",$username)){
 
 					if(strlen($password)>=6 && strlen($password)<=60){
@@ -37,7 +37,7 @@
 					echo "Invalid pregmatic form";
 				}
 			}else{
-				echo "Invalid username";	
+				echo "Invalid username";
 			}
 
 		}else{
@@ -45,7 +45,7 @@
 			echo "username already exists !!";
 		}
 
-	
+
 	}
 
 ?>
@@ -55,23 +55,23 @@
 <form action="create-account.php" method="Post">
 	<table>
 		<tr>
-			<td>Name</td> 
+			<td>Name</td>
 			<td><input type="text" name="username"></td>
 		</tr>
 
 		<tr>
-			<td>Password</td> 
+			<td>Password</td>
 			<td><input type="password" name="password"></td>
 		</tr>
 
 		<tr>
-			<td>Email</td> 
+			<td>Email</td>
 			<td><input type="email" name="email"></td>
 		</tr>
-		
+
 		<tr>
 			<td><input type="submit" name="submit" value="sign up"></td>
 		</tr>
 	</table>
-	
+
 </form>
