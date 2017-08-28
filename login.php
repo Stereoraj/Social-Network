@@ -22,10 +22,17 @@
             if(password_verify($password,DB::query('SELECT password FROM users WHERE username=:username',array(':username'=>$username))[0]['password'])){
                     echo 'valid password';
 
-                    // create the login token
-                    $crypt_strong = True;
+                    // generate the login token
+                    $crypt_strong = True; // only variable can be passed to the below generation method
                     $token = bin2hex(openssl_random_pseudo_bytes(64, $crypt_strong));
                     var_dump($token);
+
+                    // retrieve the id from the valid username to link the generated token with it
+                    $user_id = DB::query('SELECT id FROM users WHERE username=:username', array(':username'=>$username))[0]['id'];
+
+                    // storing the token with respective user_id to the table
+                    DB::query('INSERT INTO login_tokens(token, user_id) VALUES(:token, :user_id)', array(':token'=>sha1($token), ':user_id'=>$user_id));
+
             }else{
                     echo 'invalid password';
             }
