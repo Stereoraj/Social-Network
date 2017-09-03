@@ -33,6 +33,10 @@
                     // storing the token with respective user_id to the table
                     DB::query('INSERT INTO login_tokens(token, user_id) VALUES(:token, :user_id)', array(':token'=>sha1($token), ':user_id'=>$user_id));
 
+                    // create the cookie in the local system
+                    setcookie('SNID', $token, time() + 10, '/', NULL, NULL, TRUE);
+
+
             }else{
                     echo 'invalid password';
             }
