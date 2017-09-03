@@ -34,8 +34,12 @@
                     DB::query('INSERT INTO login_tokens(token, user_id) VALUES(:token, :user_id)', array(':token'=>sha1($token), ':user_id'=>$user_id));
 
                     // create the cookie in the local system
-                    setcookie('SNID', $token, time() + 10, '/', NULL, NULL, TRUE);
+                    setcookie('SNID', $token, time() + 7 * 24 * 60 * 60, '/', NULL, NULL, TRUE);
 
+                    // setting the second cookie to keep the user logged in by preventing
+                    // the first cookie to expire while logged in
+
+                    setcookie('SNID_2', '123', time() + 3 * 24 * 60 * 60, '/', NULL, NULL, TRUE);
 
             }else{
                     echo 'invalid password';
